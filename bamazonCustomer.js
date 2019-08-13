@@ -31,6 +31,24 @@ function Start() {
             res[i].price
         );
       }
+      runSearch();
     }
   );
+}
+
+function runSearch() {
+  inquirer
+    .prompt([
+      {
+        name: "itemName",
+        type: "input",
+        message: "What is the id of the product that you would like to buy?"
+      },
+      {
+        name: "units",
+        type: "input",
+        message: "How many units whould you like to buy?"
+      }
+    ])
+    .then(function(answers) {});
 }
