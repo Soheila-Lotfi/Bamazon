@@ -52,12 +52,13 @@ function runSearch() {
     ])
     .then(function(answers) {
       connection.query(
-        "SELECT stock_quantity FROM products WHERE ? ",
+        "SELECT stock_quantity, price FROM products WHERE ? ",
         { item_id: answers.itemId },
         function(err, res) {
           if (err) throw err;
           if (res[0].stock_quantity >= parseInt(answers.units)) {
-            console.log("hooray");
+            var totalCost = res[0].price * answers.units;
+            console.log("The total cost is :" + totalCost);
           } else {
             console.log("Insufficient quantity!");
             connection.end();
