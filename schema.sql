@@ -1,5 +1,5 @@
 
-1. Create a MySQL Database called `bamazon`.
+
 
 DROP DATABASE IF EXISTS bamazon;
 CREATE DATABASE bamazon;
@@ -10,7 +10,7 @@ CREATE TABLE products (
     item_id INT NOT NULL auto_increment,
     product_name VARCHAR (30) NOT NULL,
     department_name VARCHAR (30)  NULL,
-    price DECIMAL (10) NOT NULL,
+    price DECIMAL (10,2) NOT NULL,
     stock_quantity INT (10) NOT NULL,
     PRIMARY KEY (item_id)
 );
@@ -37,7 +37,7 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("mini bucket bag", "clothing", 39.99,150);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ("noname orange juice", "food", 4.99,5000);
+VALUES ("orange juice", "food", 4.99,5000);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Sumsung TV", "Electronics", 1500,230);
