@@ -40,7 +40,7 @@ function runSearch() {
   inquirer
     .prompt([
       {
-        name: "itemName",
+        name: "itemId",
         type: "input",
         message: "What is the id of the product that you would like to buy?"
       },
@@ -50,5 +50,19 @@ function runSearch() {
         message: "How many units whould you like to buy?"
       }
     ])
-    .then(function(answers) {});
+    .then(function(answers) {
+      connection.query(
+        "SELECT stock_quantity FROM products WHERE ? ",
+        { item_id: answers.itemId },
+        function(err, res) {
+          if (err) throw err;
+          if (res[0].stock_quantity >= parseInt(answers.units)) {
+            console.log("hooray");
+          } else {
+            console.log("Insufficient quantity!");
+            connection.end();
+          }
+        }
+      );
+    });
 }
