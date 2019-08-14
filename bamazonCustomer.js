@@ -58,10 +58,12 @@ function runSearch() {
           if (err) throw err;
           if (res[0].stock_quantity >= parseInt(answers.units)) {
             var totalCost = res[0].price * answers.units;
-            console.log("The total cost is :" + totalCost);
+            console.log("The total cost is : $" + totalCost);
             var remainingQuantity =
               res[0].stock_quantity - parseInt(answers.units);
-            console.log(remainingQuantity);
+            console.log(
+              remainingQuantity + " units has been left in the stock"
+            );
 
             connection.query(
               "UPDATE products SET? WHERE ?",
@@ -71,6 +73,7 @@ function runSearch() {
               ],
               function(err, res) {
                 if (err) throw err;
+                connection.end();
               }
             );
           } else {
