@@ -1,29 +1,65 @@
 var inquirer = require("inquirer");
+var mysql = require("mysql");
 
-inquirer
-  .prompt([
-    {
-      name: "Option",
-      type: "list",
-      choices: [
-        "View Products for Sale",
-        "View Low Inventory",
-        "Add to Inventory",
-        "Add New Product"
-      ]
+var connection = mysql.createConnection({
+  host: "localhost",
+  port: 3306,
+  user: "root",
+  password: "Leila@1357",
+  database: "bamazon"
+});
+
+connection.connect(function(err) {
+  if (err) throw err;
+  Start();
+});
+
+function Start() {
+  inquirer
+    .prompt([
+      {
+        name: "Option",
+        type: "list",
+        choices: [
+          "View Products for Sale",
+          "View Low Inventory",
+          "Add to Inventory",
+          "Add New Product"
+        ]
+      }
+    ])
+    .then(function(answers) {
+      if (answers.Option === "View Products for Sale") {
+        viewProducts();
+      } else if (answers.Option === "View Low Inventory") {
+        viewLowInventory();
+      } else if (answers.Option === "Add to Inventory") {
+        addToInventroy();
+      } else if (answers.Option === "Add New Product") {
+        addNewProduct();
+      }
+    });
+}
+
+function viewProducts() {
+  connection.query(
+    "SELECT item_id, product_name, price, stock_quantity FROM products",
+    function(err, res) {
+      for (var i = 0; i < res.length; i++) {
+        console.log(
+          "Item_id: " +
+            res[i].item_id +
+            "|| Product_name: " +
+            res[i].product_name +
+            "|| Price: $" +
+            res[i].price +
+            "|| Quantity: " +
+            res[i].stock_quantity
+        );
+      }
     }
-  ])
-  .then(function(answers) {
-    if (answers.Option === "View Products for Sale") {
-      viewProducts();
-    } else if (answers.Option === "View Low Inventory") {
-      viewLowInventory();
-    } else if (answers.Option === "Add to Inventory") {
-      addToInventroy();
-    } else if (answers.Option === "Add New Product") {
-      addNewProduct();
-    }
-  });
+  );
+}
 
 // * Create a new Node application called `bamazonManager.js`. Running this application will:
 
