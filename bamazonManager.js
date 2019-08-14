@@ -84,7 +84,60 @@ function viewLowInventory() {
 
 //If a manager selects `Add to Inventory`, your app should display a prompt that will let the manager "add more" of any item currently in the store.
 
-function addToInventroy() {}
+function addToInventroy() {
+  inquirer
+    .prompt([
+      {
+        name: "Id",
+        type: "input",
+        message:
+          "What is the id of the product that you would like to add more?"
+      },
+      {
+        name: "unit",
+        type: "input",
+        message: "How many items whould you like to add?"
+      }
+    ])
+    .then(function(answers) {
+      connection.query(
+        "SELECT item_id, stock_quantity FROM products WHERE ?",
+        { item_id: parseInt(answers.Id) },
+        function(err, res) {
+          if (err) throw err;
+          var newQuantity = res[0].stock_quantity + parseInt(answers.unit);
+          connection.query(
+            "UPDATE products SET ?",
+            { stock_quantity: newQuantity },
+            function(err, res) {
+              if (err) throw err;
+              inquirer
+                .prompt([
+                  {
+                    name: "newitemid",
+                    type: "list",
+                    choices: [
+                      "Is there any item that you would like to add more to it?",
+                      "Exit"
+                    ]
+                  }
+                ])
+                .then(function(answers) {
+                  if (
+                    answers.newitemid ===
+                    "Is there any item that you would like to add more to it?"
+                  ) {
+                    addToInventroy();
+                  } else if (answers.newitemid === "Exit") {
+                    Start();
+                  }
+                });
+            }
+          );
+        }
+      );
+    });
+}
 
 // If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
 
