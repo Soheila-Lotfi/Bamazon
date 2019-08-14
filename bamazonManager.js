@@ -106,10 +106,16 @@ function addToInventroy() {
         { item_id: parseInt(answers.Id) },
         function(err, res) {
           if (err) throw err;
+
           var newQuantity = res[0].stock_quantity + parseInt(answers.unit);
           connection.query(
-            "UPDATE products SET ?",
-            { stock_quantity: newQuantity },
+            "UPDATE products SET ? WHERE ?",
+            [
+              { stock_quantity: newQuantity },
+              {
+                item_id: parseInt(answers.Id)
+              }
+            ],
             function(err, res) {
               if (err) throw err;
               inquirer
