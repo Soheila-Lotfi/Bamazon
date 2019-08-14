@@ -20,6 +20,7 @@ function Start() {
       {
         name: "Option",
         type: "list",
+        message: "How can we help you?",
         choices: [
           "View Products for Sale",
           "View Low Inventory",
@@ -116,19 +117,15 @@ function addToInventroy() {
                   {
                     name: "newitemid",
                     type: "list",
-                    choices: [
+                    message:
                       "Is there any item that you would like to add more to it?",
-                      "Exit"
-                    ]
+                    choices: ["Yes", "No,back to main menu"]
                   }
                 ])
                 .then(function(answers) {
-                  if (
-                    answers.newitemid ===
-                    "Is there any item that you would like to add more to it?"
-                  ) {
+                  if (answers.newitemid === "Yes") {
                     addToInventroy();
-                  } else if (answers.newitemid === "Exit") {
+                  } else if (answers.newitemid === "No,back to main menu") {
                     Start();
                   }
                 });
