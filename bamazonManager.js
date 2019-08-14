@@ -138,4 +138,43 @@ function addToInventroy() {
 
 // If a manager selects `Add New Product`, it should allow the manager to add a completely new product to the store.
 
-function addNewProduct() {}
+function addNewProduct() {
+  inquirer
+    .prompt([
+      {
+        name: "itemname",
+        type: "input",
+        message: "what is the product's name that you would like to add?"
+      },
+      {
+        name: "department",
+        type: "input",
+        message: "what is the department's name?"
+      },
+      {
+        name: "price",
+        type: "input",
+        message: "what is the price?"
+      },
+      {
+        name: "unit",
+        type: "input",
+        message: "How many units is available?"
+      }
+    ])
+    .then(function(answers) {
+      connection.query(
+        "INSERT INTO products SET ?",
+
+        {
+          product_name: answers.itemname,
+          department_name: answers.department,
+          price: parseInt(answers.price),
+          stock_quantity: parseInt(answers.unit)
+        },
+        function(err, res) {
+          if (err) throw err;
+        }
+      );
+    });
+}
