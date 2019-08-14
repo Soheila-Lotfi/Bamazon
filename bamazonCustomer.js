@@ -59,6 +59,20 @@ function runSearch() {
           if (res[0].stock_quantity >= parseInt(answers.units)) {
             var totalCost = res[0].price * answers.units;
             console.log("The total cost is :" + totalCost);
+            var remainingQuantity =
+              res[0].stock_quantity - parseInt(answers.units);
+            console.log(remainingQuantity);
+
+            connection.query(
+              "UPDATE products SET? WHERE ?",
+              [
+                { stock_quantity: remainingQuantity },
+                { item_id: answers.itemId }
+              ],
+              function(err, res) {
+                if (err) throw err;
+              }
+            );
           } else {
             console.log("Insufficient quantity!");
             connection.end();
