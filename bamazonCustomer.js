@@ -73,13 +73,28 @@ function runSearch() {
               ],
               function(err, res) {
                 if (err) throw err;
-                connection.end();
               }
             );
           } else {
             console.log("Insufficient quantity!");
-            connection.end();
+            console.log(res[0].stock_quantity + " are available in the stock");
           }
+          inquirer
+            .prompt([
+              {
+                name: "newitem",
+                type: "list",
+                message: "whould you like to buy another item?",
+                choices: ["Yes", "No,Exit"]
+              }
+            ])
+            .then(function(answers) {
+              if (answers.newitem === "Yes") {
+                runSearch();
+              } else if (answers.newitem === "No,Exit") {
+                connection.end();
+              }
+            });
         }
       );
     });
