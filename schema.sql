@@ -1,6 +1,5 @@
 
 
-
 DROP DATABASE IF EXISTS bamazon;
 CREATE DATABASE bamazon;
 USE bamazon;
@@ -12,8 +11,10 @@ CREATE TABLE products (
     department_name VARCHAR (30)  NULL,
     price DECIMAL (10,2) NOT NULL,
     stock_quantity INT (10) NOT NULL,
+    product_sales DECIMAL (10,2) NULL,
     PRIMARY KEY (item_id)
 );
+ 
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("kitkat", "food", 2 , 1000);
@@ -44,5 +45,19 @@ VALUES ("Sumsung TV", "Electronics", 1500,230);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Piza", "food", 6.99,3000);
+
+
+
+-- ------------------------------------------------------- Create a new table- department---------------
+
+CREATE TABLE departments (
+    department_id INT NOT NULL auto_increment,
+    department_name VARCHAR (30) NOT NULL,
+    over_head_costs DECIMAL (10,2) NOT NULL,
+    PRIMARY KEY (department_id)
+
+);
+
+--- -----------------------------------------------------------------------------------------------------
 
 
