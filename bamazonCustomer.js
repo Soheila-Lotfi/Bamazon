@@ -59,10 +59,20 @@ function runSearch() {
           if (res[0].stock_quantity >= parseInt(answers.units)) {
             var totalCost = res[0].price * answers.units;
             console.log("The total cost is : $" + totalCost);
+
             var remainingQuantity =
               res[0].stock_quantity - parseInt(answers.units);
             console.log(
               remainingQuantity + " units has been left in the stock"
+            );
+
+            // total cost is added to the product's product_sales column.
+            connection.query(
+              "UPDATE products SET ? WHERE ?",
+              [{ product_sales: totalCost }, { item_id: answers.itemId }],
+              function(err, res) {
+                if (err) throw err;
+              }
             );
 
             connection.query(
