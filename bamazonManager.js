@@ -20,12 +20,13 @@ function Start() {
       {
         name: "Option",
         type: "list",
-        message: "How can we help you?",
+        message: "Main Menu",
         choices: [
           "View Products for Sale",
           "View Low Inventory",
           "Add to Inventory",
-          "Add New Product"
+          "Add New Product",
+          "Exit"
         ]
       }
     ])
@@ -38,6 +39,8 @@ function Start() {
         addToInventroy();
       } else if (answers.Option === "Add New Product") {
         addNewProduct();
+      } else if (answers.Option === "Exit") {
+        connection.end();
       }
     });
 }
@@ -60,6 +63,7 @@ function viewProducts() {
             res[i].stock_quantity
         );
       }
+      Start();
     }
   );
 }
@@ -79,6 +83,13 @@ function viewLowInventory() {
             res[i].product_name
         );
       }
+      if (res.length === 0) {
+        console.log(
+          "There is no products with a inventory count lower than five"
+        );
+      }
+
+      Start();
     }
   );
 }
@@ -180,6 +191,23 @@ function addNewProduct() {
         },
         function(err, res) {
           if (err) throw err;
+          console.log("The new product was added successfully!");
+          inquirer
+            .prompt([
+              {
+                name: "addmoreitem",
+                type: "list",
+                message: "would you like to add more new product to the list?",
+                choices: ["Yes", "No, go back to main menu"]
+              }
+            ])
+            .then(function(answers) {
+              if (answers.addmoreitem === "Yes") {
+                addNewProduct();
+              } else if (answers.addmoreitem === "No, go back to main menu") {
+                Start();
+              }
+            });
         }
       );
     });
