@@ -4,7 +4,7 @@ DROP DATABASE IF EXISTS bamazon;
 CREATE DATABASE bamazon;
 USE bamazon;
 
-CREATE TABLE products (
+CREATE TABLE bamazon.products (
 
     item_id INT NOT NULL auto_increment,
     product_name VARCHAR (30) NOT NULL,
@@ -57,6 +57,23 @@ CREATE TABLE departments (
     PRIMARY KEY (department_id)
 
 );
+
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("clothing", 10000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("food", 350000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("jewelery", 500000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("Electronics", 100000);
+
+INSERT INTO departments (department_name, over_head_costs)
+VALUES ("books", 30000);
+
 
 --- -----------------------------------------------------------------------------------------------------
 
