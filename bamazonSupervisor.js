@@ -22,7 +22,11 @@ function Start() {
         name: "options",
         type: "list",
         message: "How can we help you?",
-        choices: ["View Product Sales by Department", "Create New Department"]
+        choices: [
+          "View Product Sales by Department",
+          "Create New Department",
+          "Exit"
+        ]
       }
     ])
     .then(function(answers) {
@@ -42,6 +46,7 @@ function Start() {
         connection.query(querySelect, function(err, res) {
           if (err) throw err;
           console.table(res);
+          connection.end();
         });
       } else if (answers.options === "Create New Department") {
         inquirer
@@ -75,9 +80,12 @@ function Start() {
                 console.log(
                   "New department was inserted into database suessfully!"
                 );
+                connection.end();
               }
             );
           });
+      } else if (answers.options === "Exit") {
+        connection.end();
       }
     });
 }
