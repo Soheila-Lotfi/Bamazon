@@ -38,27 +38,46 @@ function Start() {
           "LEFT JOIN products AS p ON p.department_name=d.department_name" +
           " " +
           "GROUP BY department_name";
-        console.log(querySelect);
+
         connection.query(querySelect, function(err, res) {
           if (err) throw err;
           console.table(res);
         });
+      } else if (answers.options === "Create New Department") {
+        inquirer
+          .prompt([
+            {
+              name: "departmentName",
+              type: "input",
+              message: "what is the name of the department?"
+            },
+            {
+              name: "overheadcost",
+              type: "input",
+              message: "what is the over head cost?"
+            },
+            {
+              name: "departmentid",
+              type: "input",
+              message: "what is the department's id?"
+            }
+          ])
+          .then(function(answers) {
+            connection.query(
+              "INSERT INTO departments SET ?",
+              {
+                department_name: answers.departmentName,
+                over_head_costs: answers.overheadcost,
+                department_id: answers.departmentid
+              },
+              function(err, res) {
+                if (err) throw err;
+                console.log(
+                  "New department was inserted into database suessfully!"
+                );
+              }
+            );
+          });
       }
     });
 }
-
-// | department_id | department_name | over_head_costs | product_sales | total_profit |
-// | ------------- | --------------- | --------------- | ------------- | ------------ |
-// | 01            | Electronics     | 10000           | 20000         | 10000        |
-// | 02            | Clothing        | 60000           | 100000        | 40000        |
-
-// 5. The `total_profit` column should be calculated on the fly using the difference between `over_head_costs` and `product_sales`. `total_profit` should not be stored in any database. You should use a custom alias.
-
-// 6. If you can't get the table to display properly after a few hours, then feel free to go back and just add `total_profit` to the `departments` table.
-
-//
-
-//
-//
-
-//    * **HINT**: There may be an NPM package that can log the table to the console. What's is it? Good question :)
