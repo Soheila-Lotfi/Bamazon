@@ -13,7 +13,7 @@ In this app, I create an Amazon-like storefront with the MySQL skillst. The app 
 The app includes three js files : bamazonCustomer, bamazonManager, and  bamazonSupervisor
 
 
- #1: Customer View:
+ # Customer View:
 
 
 1. create a Table inside of the database (which I called it bamazon) called `products`.
