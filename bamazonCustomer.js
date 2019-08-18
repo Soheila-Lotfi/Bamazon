@@ -1,8 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
-// ### Challenge #1: Customer View (Minimum Requirement)
-
 var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,

@@ -48,6 +48,7 @@ function Start() {
           console.table(res);
           connection.end();
         });
+        // Create new department
       } else if (answers.options === "Create New Department") {
         inquirer
           .prompt([
